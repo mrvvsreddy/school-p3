@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: school-p2-backend
+    env: python
+    region: singapore # Optional: specify region or remove
+    plan: free # Optional
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn src.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.12
+    # If this is a monorepo, specify the build context
+    # root: server 

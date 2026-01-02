@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://edunet-school.example.com/sitemap.xml
