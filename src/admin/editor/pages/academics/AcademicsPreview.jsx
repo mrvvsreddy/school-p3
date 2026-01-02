@@ -21,7 +21,7 @@ const AcademicsPreview = ({ content }) => {
     }, [content]);
 
     return (
-        <div className="w-full h-full overflow-y-auto bg-white">
+        <div className="w-full h-full overflow-y-auto bg-white overflow-x-hidden">
             <div className="p-4 text-center text-xs text-slate-400 uppercase tracking-wider border-b bg-gray-50">
                 Live Academics Page Preview
             </div>

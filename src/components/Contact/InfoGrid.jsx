@@ -20,12 +20,7 @@ const InfoGrid = ({ data }) => {
 
     return (
         <div className="flex flex-col gap-6 pt-6">
-            <FadeIn>
-                <div className="mb-6">
-                    <h3 className="text-2xl font-serif font-bold text-gray-900 lg:text-white mb-2">Contact Information</h3>
-                    <p className="text-gray-500 lg:text-gray-200">Reach out to us directly through any of these channels.</p>
-                </div>
-            </FadeIn>
+
 
             {cards.map((card, idx) => {
                 const IconComponent = getIcon(card.icon);
@@ -63,18 +58,16 @@ const InfoGrid = ({ data }) => {
                         Office Hours
                     </h4>
                     <ul className="space-y-4 text-gray-300 relative z-10 text-sm">
-                        <li className="flex justify-between">
-                            <span>Monday - Friday</span>
-                            <span className="font-medium text-white">8:00 AM - 4:00 PM</span>
-                        </li>
-                        <li className="flex justify-between">
-                            <span>Saturday</span>
-                            <span className="font-medium text-white">9:00 AM - 1:00 PM</span>
-                        </li>
-                        <li className="flex justify-between">
-                            <span>Sunday</span>
-                            <span className="font-medium text-white">Closed</span>
-                        </li>
+                        {(data.office_hours || [
+                            { day: 'Monday - Friday', time: '8:00 AM - 4:00 PM' },
+                            { day: 'Saturday', time: '9:00 AM - 1:00 PM' },
+                            { day: 'Sunday', time: 'Closed' }
+                        ]).map((hours, idx) => (
+                            <li key={idx} className="flex justify-between">
+                                <span>{hours.day}</span>
+                                <span className="font-medium text-white">{hours.time}</span>
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </FadeIn>

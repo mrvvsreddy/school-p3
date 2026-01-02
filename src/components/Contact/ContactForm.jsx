@@ -3,7 +3,7 @@ import { Send, CheckCircle, Loader2, AlertCircle } from 'lucide-react';
 
 const API_BASE = 'http://localhost:8000/api/v1';
 
-const ContactForm = () => {
+const ContactForm = ({ data = {} }) => {
     const [focused, setFocused] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [submitting, setSubmitting] = useState(false);
@@ -16,6 +16,16 @@ const ContactForm = () => {
         subject: 'admission',
         message: ''
     });
+
+    const defaultSubjects = [
+        { value: 'admission', label: 'Admissions Inquiry' },
+        { value: 'fees', label: 'Fee Structure' },
+        { value: 'general', label: 'General Inquiry' },
+        { value: 'feedback', label: 'Feedback' },
+        { value: 'careers', label: 'Careers' }
+    ];
+
+    const subjects = data.subjects || defaultSubjects;
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -136,8 +146,12 @@ const ContactForm = () => {
                 ) : (
                     <>
                         <div className="mb-10">
-                            <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-3">Get in Touch</h2>
-                            <p className="text-gray-500">Have specific questions? Fill out the form below and our team will assist you.</p>
+                            <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-900 mb-3">
+                                {data.title || "Get in Touch"}
+                            </h2>
+                            <p className="text-gray-500">
+                                {data.subtitle || "Have specific questions? Fill out the form below and our team will assist you."}
+                            </p>
                         </div>
 
                         {error && (
@@ -167,11 +181,9 @@ const ContactForm = () => {
                                     onBlur={() => setFocused('')}
                                     className="w-full bg-gray-50/50 border-b-2 border-gray-200 px-4 py-4 pt-6 rounded-t-lg focus:outline-none focus:border-primary focus:bg-white transition-all font-medium text-gray-800 appearance-none cursor-pointer"
                                 >
-                                    <option value="admission">Admissions Inquiry</option>
-                                    <option value="fees">Fee Structure</option>
-                                    <option value="general">General Inquiry</option>
-                                    <option value="feedback">Feedback</option>
-                                    <option value="careers">Careers</option>
+                                    {subjects.map((subj, idx) => (
+                                        <option key={idx} value={subj.value}>{subj.label}</option>
+                                    ))}
                                 </select>
                                 <label className="absolute left-4 top-1 text-xs text-primary font-bold tracking-wide pointer-events-none">
                                     Subject

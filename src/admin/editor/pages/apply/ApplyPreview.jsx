@@ -20,7 +20,7 @@ const ApplyPreview = ({ content }) => {
     }, [content]);
 
     return (
-        <div className="w-full h-full overflow-y-auto bg-gray-50">
+        <div className="w-full h-full overflow-y-auto bg-gray-50 overflow-x-hidden">
             <div className="p-4 text-center text-xs text-slate-400 uppercase tracking-wider border-b bg-gray-50">
                 Live Apply Page Preview
             </div>

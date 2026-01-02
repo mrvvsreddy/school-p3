@@ -82,7 +82,7 @@ const Contact = () => {
             <div className="container mx-auto px-4 md:px-6 -mt-20 relative z-20 mb-24">
                 <div className="flex flex-col lg:flex-row gap-8 items-start">
                     <div className="w-full lg:w-3/5">
-                        <ContactForm />
+                        <ContactForm data={pageData.form_settings} />
                     </div>
                     <div className="w-full lg:w-2/5">
                         {pageData.info_cards && <InfoGrid data={pageData.info_cards} />}

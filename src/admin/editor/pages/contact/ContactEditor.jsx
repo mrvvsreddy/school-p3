@@ -245,49 +245,95 @@ const ContactEditor = ({ content, onUpdate }) => {
         };
 
         return (
-            <div className="space-y-3">
-                <label className="block text-sm font-bold text-slate-700">Contact Cards ({cards.length})</label>
-                {cards.map((card, index) => (
-                    <div key={card._id} className="p-4 bg-slate-50 rounded-lg border border-slate-200 space-y-3">
-                        <div className="flex items-center justify-between">
-                            <select
-                                value={card.icon || 'Phone'}
-                                onChange={(e) => updateCard(card._id, 'icon', e.target.value)}
-                                className="px-2 py-1 border border-slate-200 rounded text-xs"
-                            >
-                                {infoIconOptions.map(opt => (
-                                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+            <div className="space-y-4">
+
+
+                <div className="space-y-3">
+                    <label className="block text-sm font-bold text-slate-700">Contact Cards ({cards.length})</label>
+                    {cards.map((card, index) => (
+                        <div key={card._id} className="p-4 bg-slate-50 rounded-lg border border-slate-200 space-y-3">
+                            <div className="flex items-center justify-between">
+                                <select
+                                    value={card.icon || 'Phone'}
+                                    onChange={(e) => updateCard(card._id, 'icon', e.target.value)}
+                                    className="px-2 py-1 border border-slate-200 rounded text-xs"
+                                >
+                                    {infoIconOptions.map(opt => (
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                    ))}
+                                </select>
+                                <button onClick={() => removeCard(card._id)} className="text-red-500 hover:text-red-700">
+                                    <Trash2 size={14} />
+                                </button>
+                            </div>
+                            <input
+                                type="text"
+                                value={card.title || ''}
+                                onChange={(e) => updateCard(card._id, 'title', e.target.value)}
+                                className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium"
+                                placeholder="Card Title (e.g., Call Us)"
+                            />
+                            <div className="space-y-2">
+                                <label className="text-xs text-slate-500">Lines:</label>
+                                {(card.lines || ['', '']).map((line, lineIdx) => (
+                                    <input
+                                        key={lineIdx}
+                                        type="text"
+                                        value={line}
+                                        onChange={(e) => updateCardLine(card._id, lineIdx, e.target.value)}
+                                        className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"
+                                        placeholder={`Line ${lineIdx + 1}`}
+                                    />
                                 ))}
-                            </select>
-                            <button onClick={() => removeCard(card._id)} className="text-red-500 hover:text-red-700">
-                                <Trash2 size={14} />
-                            </button>
+                            </div>
                         </div>
-                        <input
-                            type="text"
-                            value={card.title || ''}
-                            onChange={(e) => updateCard(card._id, 'title', e.target.value)}
-                            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium"
-                            placeholder="Card Title (e.g., Call Us)"
-                        />
-                        <div className="space-y-2">
-                            <label className="text-xs text-slate-500">Lines:</label>
-                            {(card.lines || ['', '']).map((line, lineIdx) => (
-                                <input
-                                    key={lineIdx}
-                                    type="text"
-                                    value={line}
-                                    onChange={(e) => updateCardLine(card._id, lineIdx, e.target.value)}
-                                    className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"
-                                    placeholder={`Line ${lineIdx + 1}`}
-                                />
-                            ))}
+                    ))}
+                    <button onClick={addCard} className="flex items-center gap-2 text-sm text-primary hover:text-primary-dark font-medium">
+                        <Plus size={16} /> Add Card
+                    </button>
+                </div>
+
+                <div className="space-y-3 pt-4 border-t border-slate-100">
+                    <label className="block text-sm font-bold text-slate-700">Office Hours</label>
+                    {(data.office_hours || [
+                        { day: 'Monday - Friday', time: '8:00 AM - 4:00 PM' },
+                        { day: 'Saturday', time: '9:00 AM - 1:00 PM' },
+                        { day: 'Sunday', time: 'Closed' }
+                    ]).map((hours, idx) => (
+                        <div key={idx} className="flex gap-2">
+                            <input
+                                type="text"
+                                value={hours.day}
+                                onChange={(e) => {
+                                    const newHours = [...(data.office_hours || [
+                                        { day: 'Monday - Friday', time: '8:00 AM - 4:00 PM' },
+                                        { day: 'Saturday', time: '9:00 AM - 1:00 PM' },
+                                        { day: 'Sunday', time: 'Closed' }
+                                    ])];
+                                    newHours[idx].day = e.target.value;
+                                    updateSectionContent('info_cards', 'office_hours', newHours);
+                                }}
+                                className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm"
+                                placeholder="Day(s)"
+                            />
+                            <input
+                                type="text"
+                                value={hours.time}
+                                onChange={(e) => {
+                                    const newHours = [...(data.office_hours || [
+                                        { day: 'Monday - Friday', time: '8:00 AM - 4:00 PM' },
+                                        { day: 'Saturday', time: '9:00 AM - 1:00 PM' },
+                                        { day: 'Sunday', time: 'Closed' }
+                                    ])];
+                                    newHours[idx].time = e.target.value;
+                                    updateSectionContent('info_cards', 'office_hours', newHours);
+                                }}
+                                className="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-sm"
+                                placeholder="Time"
+                            />
                         </div>
-                    </div>
-                ))}
-                <button onClick={addCard} className="flex items-center gap-2 text-sm text-primary hover:text-primary-dark font-medium">
-                    <Plus size={16} /> Add Card
-                </button>
+                    ))}
+                </div>
             </div>
         );
     };
@@ -322,6 +368,16 @@ const ContactEditor = ({ content, onUpdate }) => {
                         onChange={(e) => updateSectionContent('form_settings', 'title', e.target.value)}
                         className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm"
                         placeholder="e.g., Send us a Message"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-bold text-slate-700 mb-2">Form Subtitle</label>
+                    <textarea
+                        rows="2"
+                        value={data.subtitle || ''}
+                        onChange={(e) => updateSectionContent('form_settings', 'subtitle', e.target.value)}
+                        className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm resize-none"
+                        placeholder="e.g., Have specific questions?"
                     />
                 </div>
                 <div className="space-y-3">
